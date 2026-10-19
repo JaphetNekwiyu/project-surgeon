@@ -1,0 +1,1 @@
+{"name":"project-surgeon-local","interface":{"displayName":"Local Development Tools"},"plugins":[{"name":"project-surgeon","source":{"source":"local","path":"./plugins/project-surgeon"},"policy":{"installation":"AVAILABLE","authentication":"ON_INSTALL"},"category":"Productivity"}]}
