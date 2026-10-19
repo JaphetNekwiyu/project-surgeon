@@ -1,0 +1,1 @@
+{"name":"project-surgeon","version":"1.0.0","description":"Audit, deduplicate and safely optimize projects","author":{"name":"Project Surgeon contributors"},"license":"MIT","skills":"./skills/","interface":{"displayName":"Project Surgeon","shortDescription":"Review and safely optimize code","category":"Productivity","capabilities":["Read","Write"]}}
