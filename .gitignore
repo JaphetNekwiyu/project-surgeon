@@ -1,0 +1,25 @@
+# Python caches and local test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Local settings and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Platform/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local scan reports
+project-surgeon-audit*.md
+project-surgeon-audit*.json
