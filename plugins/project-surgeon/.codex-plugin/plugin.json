@@ -1,1 +1,25 @@
-{"name":"project-surgeon","version":"1.0.0","description":"Audit, deduplicate and safely optimize projects","author":{"name":"Project Surgeon contributors"},"license":"MIT","skills":"./skills/","interface":{"displayName":"Project Surgeon","shortDescription":"Review and safely optimize code","category":"Productivity","capabilities":["Read","Write"]}}
+{
+  "name": "project-surgeon",
+  "version": "2.0.0",
+  "description": "Safety-first Codex review and cleanup with 11 specialist skills.",
+  "author": {
+    "name": "Project Surgeon contributors"
+  },
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Project Surgeon",
+    "shortDescription": "Audit, repair and verify projects safely",
+    "longDescription": "Eleven specialized code review skills coordinated by Project Surgeon.",
+    "developerName": "Project Surgeon contributors",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use project-surgeon in audit mode.",
+      "Use project-surgeon in full-surgeon mode and report findings."
+    ]
+  }
+}
