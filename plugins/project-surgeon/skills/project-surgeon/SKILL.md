@@ -37,6 +37,12 @@ Read the corresponding `SKILL.md` under `../<skill-name>/` for detailed methods.
 
 Use all applicable specialists in `full-surgeon`. For a pure frontend project, mark database/finance workstreams not applicable instead of inventing findings. Read-only investigation can be parallelized when subagents are available; editing is strictly sequential, and only one writer touches any file.
 
+## Mandatory Tech Lead handoff loop
+
+When implementing significant cleanup or improvements, first load the `tech-lead` skill and `tech-lead/references/engineering-workflow.md`. Break multi-module or multi-checkpoint tasks into independently verifiable subtasks; when actual subagent tools are available, delegate at least one appropriate specialist and use QA/security reviewers as warranted. Do not claim delegated execution if the environment does not support it.
+
+After each specialist returns, the primary Tech Lead reviews its exact diff, simplicity, scope, test evidence, acceptance criteria and protected boundaries. Mark ACCEPTED / REWORK / BLOCKED / UNVERIFIED. **Only ACCEPTED unblocks dependent tasks.** Rework failing tasks rather than rushing ahead, and do not silently omit uncompleted work. Independent tasks with disjoint file ownership may continue. Prefer reuse and the simplest correct implementation to new abstractions or dependencies; never sacrifice safety or tests for fewer lines.
+
 ## Shared preparation
 1. Read relevant `AGENTS.md`, project docs, scripts, dependency manifests, deployment boundaries and current architecture.
 2. Run `git status --short`; preserve every pre-existing edit. If the worktree is dirty, remain in audit mode unless an isolated edit scope is explicitly approved.
