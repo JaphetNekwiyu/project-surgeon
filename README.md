@@ -112,3 +112,48 @@ GitHub Actions runs these checks on each push/PR. All workflows should remain of
 See `plugins/project-surgeon/skills/project-surgeon/SKILL.md` for the complete orchestration workflow.
 
 **License:** MIT.
+
+## Codex development team (Tech Lead + 8 subagents)
+
+Project Surgeon also includes the `tech-lead` coordination skill and **eight optional Codex custom agent profiles** in `plugins/project-surgeon/agents/`:
+
+- `frontend-developer`: UI, components, accessibility
+- `backend-developer`: server APIs and business logic
+- `ai-ml-engineer`: AI systems and evaluations
+- `data-engineer`: pipeline and data contracts
+- `devops-cloud-engineer`: CI and infrastructure review (no unapproved deployment)
+- `security-engineer`: independent read-only security review
+- `ui-ux-designer`: design flows and usability guidance
+- `qa-engineer`: independent read-only QA and regression review
+
+The **main Codex session is the Tech Lead**; the `tech-lead` skill directs delegation. These roles are not automatically spawned on every request. Use only the specialists a task requires.
+
+### Install subagent profiles in Windows PowerShell
+
+After cloning the repository and installing the plugin:
+
+```powershell
+.\install-agents.ps1 -Scope User
+```
+
+For an existing installation, `git pull` first; to replace already installed profiles while saving timestamped backups:
+
+```powershell
+.\install-agents.ps1 -Scope User -Force
+```
+
+To install only in a particular project rather than globally:
+
+```powershell
+.\install-agents.ps1 -Scope Project -ProjectPath "C:\\path\\to\\your-project"
+```
+
+The installer detects collisions before any write; it **does not edit `config.toml`**, alter existing non-team agents or enable multi-agent support itself. Restart Codex afterward. Confirm that your Codex version supports custom agents and that multi-agent tools are enabled. See the [official subagents docs](https://developers.openai.com/codex/subagents).
+
+Example prompt:
+
+```text
+Use the tech-lead skill to plan and implement this feature. Delegate frontend and backend work with disjoint file ownership, have security review the changes and QA independently verify them. Do not deploy or change protected finance/auth/database code without my specific approval.
+```
+
+Custom agent prompts guide behavior but do not grant separate sandbox permissions. All agents inherit the parent session's effective permissions. **Do not assume read-only instructions are a technical security boundary**; inspect their output and use appropriate Codex approval/sandbox settings.
