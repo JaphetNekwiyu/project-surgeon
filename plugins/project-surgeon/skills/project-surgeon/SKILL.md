@@ -1,61 +1,83 @@
 ---
 name: project-surgeon
-description: Audit full repositories for duplicate code, unused modules, architecture issues, quality risks and measurable performance opportunities. Safely implement verified cleanup.
+description: Orchestrate a complete, safety-first codebase audit and small verified cleanup across bugs, security, tests, duplication, performance, architecture, dependencies, database, documentation, regression and financial integrity.
 ---
 
-# Project Surgeon
+# Project Surgeon 2.0 — Master Orchestrator
 
-Audit → evidence → small safe refactor → verify. Never confuse shorter code with faster or safer code.
+**Objective:** diagnose, prioritize, safely repair, and verify. This plugin is a collection of focused Codex skills, not a background auto-fix daemon. Never equate removing code with improving quality.
 
 ## Modes
-- **audit** (default): read-only investigation; no modifications.
-- **cleanup**: audit then small, low-risk code changes, with regression checks.
-- **duplicates**: identify repeated components, helpers and code.
-- **review**: report correctness, security, architecture and quality findings.
-- **performance**: measure actual bottlenecks before recommending improvements.
+- **audit** (default): comprehensive read-only review, nothing changed.
+- **cleanup**: perform read-only review, then make narrowly scoped, low-risk fixes with evidence and verification.
+- **review**: findings and test gaps only.
+- **duplicates**: identify exact and semantic duplication candidates.
+- **performance**: measure first, optimize only with a reproducible baseline.
+- **full-surgeon**: coordinate all specialists, merging their findings into one ranked report. Read-only unless the user separately requests fixes.
+- **vlei-safety**: perform protected-finance read-only audit and report integrity gaps without changing money-handling logic.
 
-If unclear, choose audit. An explicit request to clean authorizes only low-risk source edits, NOT production-sensitive changes.
+If the request is ambiguous, use audit mode.
 
-## Before touching code
-1. Read AGENTS.md and relevant project docs. Inventory framework, packages, entrypoints, route definitions, background jobs, tests, deployment targets, APIs, database schemas and integrations.
-2. Run git status --short. Never discard, reset, clean, rebase or overwrite user edits. On dirty worktrees use audit mode unless specific, isolated modifications are approved.
-3. Establish safe test/typecheck/lint/build baselines. Inspect scripts for production side effects before running.
-4. Do not read secrets, print credentials, connect to production, install packages, change remote settings, deploy, or run destructive migrations.
+## Use specialist skills
+Read the corresponding `SKILL.md` under `../<skill-name>/` for detailed methods. Subskills are independently invokable; do not assume their mere existence means checks were executed.
 
-## Discovery
-Run the bundled scanner (Python 3, stdlib only):
-```bash
-python plugins/project-surgeon/skills/project-surgeon/scripts/scan.py --repo . --format markdown
-```
-Or locate the installed skill directory if running outside the plugin repository. JSON output: --format json. Scanner output contains **candidates**, never proof of dead code.
+| Workstream | Specialist |
+| --- | --- |
+| Reproducible defects | `bug-hunter` |
+| Threat model, access and validation | `security-guardian` |
+| Coverage and regression test authoring | `test-engineer` |
+| Duplicated and potentially unused code | `dead-code-detective` |
+| Measured latency and resource use | `performance-engineer` |
+| Modularity and dependency boundaries | `architecture-doctor` |
+| Package and lockfile health | `dependency-doctor` |
+| Schema, SQL, RLS and transactions | `database-inspector` |
+| Documentation drift | `documentation-keeper` |
+| Review of a change against baseline | `regression-guardian` |
+| Exact money and immutable evidence | `financial-integrity-guardian` |
 
-Review all application packages, including dynamically loaded modules, config files, entrypoints, migrations, registries, public APIs and tests. In large repositories, cover all packages while prioritizing hotspots; don't claim every line was manually inspected without evidence.
+Use all applicable specialists in `full-surgeon`. For a pure frontend project, mark database/finance workstreams not applicable instead of inventing findings. Read-only investigation can be parallelized when subagents are available; editing is strictly sequential, and only one writer touches any file.
 
-Investigate:
-1. Repeated code: equivalent business logic, React components, hooks, API clients, queries, validation and calculations.
-2. Unused code: use local search, dependency graphs and available installed linters or dead-code checkers; check reflection, dynamic imports, scripts, framework conventions and downstream dependencies before removal.
-3. Design problems: circular deps, overly complex conditionals, misleading naming, large modules, unnecessary abstractions and duplicate configuration.
-4. Reliability and security: weak validation, broken authorization, races, exceptions, leakage, missing idempotency and insufficient tests.
-5. Performance: N+1 queries, unnecessary renders, repeated I/O, bundle bloat, inefficient loops, missing pagination. Gather benchmark/profiling evidence before promising gains.
+## Shared preparation
+1. Read relevant `AGENTS.md`, project docs, scripts, dependency manifests, deployment boundaries and current architecture.
+2. Run `git status --short`; preserve every pre-existing edit. If the worktree is dirty, remain in audit mode unless an isolated edit scope is explicitly approved.
+3. Inventory routes, shared packages, business logic, background jobs, APIs, persistence, tests, dynamic entrypoints and generated code.
+4. Establish baseline: run only **safe** local lint, typecheck, test, build and profiling commands. Inspect scripts for side effects first. Record existing failures and skips.
+5. Run the bundled read-only source scanner, using the resolved path of `scripts/scan.py` adjacent to this skill:
+   `python <skill-directory>/scripts/scan.py --repo . --format markdown`
+   JSON format is supported. The scanner finds syntax-based **candidates** only, not proof of unused code or security.
+6. Build a coverage ledger: packages investigated, tests actually run, skipped/unavailable checks, and dynamic/plugin/external consumers still uncertain.
 
-Read references/safety.md and references/review-checklist.md.
+## Evidence-driven review
+- For suspected bugs, require a safe reproduction or failing test.
+- For dead code, trace indirect, dynamic, framework and external use before removing it.
+- For duplication, verify identical responsibilities and behavior, not only matching syntax.
+- For performance, measure representative workload before and after any change; do not claim improvement without data.
+- For dependency security, distinguish unchecked advisories from verified ones.
+- For architecture, propose incremental steps with explicit contract protection.
+- For docs, compare instructions to actual code; do not invent features.
+- For financial systems, check monetary exactness, immutable source records, reversals, reconciliation idempotency, concurrency, approval gates, auditability and tenant isolation.
 
-## Protected code: NEVER change automatically
-Treat invoices, monetary calculations, ledgers, reconciliation, payments, taxation, tenant isolation, auth/MFA, access controls, RLS, rate limits, audit logs, event streams, migrations, schemas, storage policies, production config, background schedules, secrets, legal/regulatory evidence and integrations as protected. Require separate explicit, scoped approval before editing. Never delete migrations that appear obsolete. In Vlei projects preserve immutable records and financial evidence.
+## Protected boundaries: stop and request separate scoped approval
+Never automatically modify or delete: invoice/payment/ledger/tax/reconciliation calculations; bank evidence; issued financial documents; RLS, tenancy, access controls and authentication/MFA; encryption, rate limiting, security checks or audit logs; migrations, database schema and storage policies; background financial jobs; production secrets, deployment, or legal/compliance evidence. Do not connect to live databases or services, print secrets, run destructive commands, force push, install dependencies or deploy during a routine cleanup.
 
-## Safe cleanup
-- Rank findings by severity, confidence, path:line evidence, benefit and behavioral risk.
-- Change one low-risk, clearly understood component at a time. Do not change observable behavior, APIs, accessibility, error semantics or logs.
-- Before removing code, prove no dynamic/runtime/external dependency exists.
-- Run targeted checks after each change, then safe full verification. Compare to baseline and inspect git diff --check.
-- If tests regress, stop. Never discard other people's work or rewrite tests to hide failures.
-- Don't claim total cleanup or guaranteed performance increases.
+**Vlei-specific:** protect existing staged and production Supabase connections; no migration, live import, data repair, release or financial feature-gate changes as part of housekeeping. Synthetic local tests only.
 
-## Report
-- Coverage and limitations.
-- Ranked findings with exact file/line and evidence; distinguish *candidate* from *proven*.
-- Changes and any deletions (or state "No files changed").
-- Verification: test/lint/typecheck/build/benchmark pass/fail/skip details.
-- Remaining uncertainty and protected areas.
+## Approved cleanup
+1. Rank every finding by impact, confidence, scope and risk; separate confirmed from hypothetical.
+2. Choose the smallest non-sensitive fix that preserves all externally observable behavior.
+3. Add targeted regression tests where appropriate, apply one isolated change, and run tests before the next.
+4. Compare with baseline; check `git diff --check` and inspect exact diff for unintended modifications.
+5. If verification regresses, stop and report; never rewrite tests to hide failures, reset user changes or assert success without passing evidence.
+6. Use `regression-guardian` as the final release gate. Report NO-GO if protected changes lack approval or tests fail.
 
-If subagents are available, parallelize **read-only** investigation. Never let multiple writers edit the same file.
+## Required final report
+Summarize:
+- Project scope and audit coverage (including not-inspected code)
+- Ranked findings: severity, confidence, file:line and supporting evidence
+- Candidate vs confirmed defects, unused code and performance issues
+- Files modified/deleted (or exactly “No files changed”)
+- Before/after tests, lint/typecheck/build/benchmarks with pass/fail/skip
+- Protected areas not touched, risk, rollback and outstanding work
+- Final disposition: **GO**, **NO-GO**, or **UNVERIFIED** based on checks actually performed
+
+See `references/safety.md` and `references/review-checklist.md`; subskills inherit these rules.
