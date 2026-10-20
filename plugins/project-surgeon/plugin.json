@@ -1,1 +1,39 @@
-{"$schema":"https://agent-plugins.org/schemas/1.0.0/plugin.schema.json","name":"project-surgeon","version":"1.0.0","description":"Audit, deduplicate and safely optimize projects","author":{"name":"Project Surgeon contributors"},"license":"MIT","extensions":{"com.openai":{"interface":{"displayName":"Project Surgeon","shortDescription":"Review and safely optimize code","category":"Productivity","capabilities":["Read","Write"]}}}}
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "project-surgeon",
+  "version": "2.0.0",
+  "description": "A safety-first Codex codebase review and cleanup toolkit with 11 specialist skills.",
+  "author": {
+    "name": "Project Surgeon contributors"
+  },
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "refactoring",
+    "code-review",
+    "security",
+    "testing",
+    "maintenance",
+    "performance"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Project Surgeon",
+        "shortDescription": "Audit, repair and verify projects safely",
+        "longDescription": "Eleven focused review skills for correctness, security, tests, dead code, performance, architecture, dependencies, databases, documentation, regressions and financial integrity.",
+        "developerName": "Project Surgeon contributors",
+        "category": "Productivity",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "defaultPrompt": [
+          "Use project-surgeon in audit mode on this repository.",
+          "Use project-surgeon in full-surgeon mode. Review every applicable workstream without changing code.",
+          "Use project-surgeon in cleanup mode. Make only verified, non-sensitive improvements."
+        ]
+      }
+    }
+  }
+}
