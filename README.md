@@ -157,3 +157,15 @@ Use the tech-lead skill to plan and implement this feature. Delegate frontend an
 ```
 
 Custom agent prompts guide behavior but do not grant separate sandbox permissions. All agents inherit the parent session's effective permissions. **Do not assume read-only instructions are a technical security boundary**; inspect their output and use appropriate Codex approval/sandbox settings.
+
+## Mandatory engineering-team handoff workflow
+
+The Tech Lead coordinates each substantial task with the **smallest useful set of specialist subagents** (usually 2–3, only when supported). Each agent owns disjoint files and must send a structured summary of what it changed, checks run, risks and whether its acceptance criteria were met.
+
+**After every handoff, the main Tech Lead inspects the work and chooses ACCEPTED, REWORK, BLOCKED or UNVERIFIED.** Only ACCEPTED tasks can unblock dependent milestones. Independent work may continue in parallel when file ownership is separate. QA and Security give independent evidence where relevant.
+
+Project Surgeon favors the simplest **correct and maintainable** solution: reuse existing code, prefer small local changes, extract shared helpers only when justified, and avoid premature frameworks or extra dependencies. Do not compromise correctness, security, tests or financial integrity for fewer lines.
+
+These are instructions for Codex, **not runtime-enforced permissions or an automatic task scheduler**. If actual subagent delegation isn't available, the main Codex session follows equivalent sequential gates and reports that limitation. All protected changes still require separate authorization.
+
+See [engineering workflow](plugins/project-surgeon/skills/tech-lead/references/engineering-workflow.md) and [Tech Lead skill](plugins/project-surgeon/skills/tech-lead/SKILL.md).
